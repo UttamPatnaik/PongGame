@@ -16,3 +16,29 @@ RectangleShape Bat::getShape()
 {
     return m_shape;
 }
+void Bat::moveLeft()
+{
+    m_isMovingLeft = true;
+}
+void Bat::moveRight()
+{
+    m_isMovingRight = true;
+}
+void Bat::stopLeft()
+{
+    m_isMovingLeft = false;
+}
+void Bat::stopRight()
+{
+    m_isMovingRight = false;
+}
+void Bat::update(Time dt)
+{
+    if (m_isMovingLeft)
+        if(m_position.x > 0)
+            m_position.x -= m_speed * dt.asSeconds();
+    if (m_isMovingRight)
+        if(m_position.x < 910)
+            m_position.x += m_speed * dt.asSeconds();
+    m_shape.setPosition(m_position);
+}           
