@@ -1,7 +1,3 @@
-Here’s your **final updated README** — clean, structured, and matching your completed game (with all features + cases added) 👇
-
----
-
 # 🏓 Pong — C++ / SFML
 
 A fully functional **Pong-style game** built using **C++** and the **SFML graphics library** 🎮
@@ -251,5 +247,3 @@ m_position += speed * dt.asSeconds();
 # 🏓 Pong
 
 **Precision. Control. Reflex.** 🎮🔥
-
----
