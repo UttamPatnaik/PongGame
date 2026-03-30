@@ -1,64 +1,134 @@
-# 🏓 Pong (Work in Progress) — C++ / SFML
+Here’s your **final updated README** — clean, structured, and matching your completed game (with all features + cases added) 👇
 
-A minimal **Pong-style paddle system** built using **C++** and the **SFML graphics library** 🎮.
-This project focuses on building a strong foundation in **real-time input handling, movement systems, and game architecture**.
+---
 
-> Current Stage: Core paddle system (movement + rendering)
+# 🏓 Pong — C++ / SFML
+
+A fully functional **Pong-style game** built using **C++** and the **SFML graphics library** 🎮
+This project demonstrates core concepts of **game development**, including real-time input, physics, collision detection, and game state management.
+
+> ✅ Status: Completed (Core Gameplay Implemented)
 
 ---
 
 # 🎯 Objective
 
-Build a fully functional Pong game step-by-step by implementing:
+To build a classic Pong game while learning:
 
-• Paddle movement
-• Ball physics
-• Collision system
-• Scoring system
+• Real-time game loop
+• Physics-based movement
+• Collision detection
+• Game state handling
+• Object-oriented design in C++
 
 ---
 
-# 🚀 Current Features (v0.1)
+# 🚀 Features (v1.0)
 
-## 🎮 Paddle System
+## 🎮 Gameplay System
 
-• Smooth left/right movement
-• Delta-time based motion
-• Boundary-constrained movement
-• Input-driven state system
+• Paddle (Bat) movement
+• Ball physics and motion
+• Collision detection (walls + bat)
+• Score tracking system
+• Lives system
 
-## 🎹 Input Handling
+## 🎯 Game States
 
-• Real-time keyboard detection
-• Continuous movement (not event-based)
-• Directional control flags
+• Running state
+• Game Over state
+• Restart using **Enter key**
 
-## ⚙️ Rendering System
+## 🎨 UI System
 
-• SFML-based window rendering
-• Frame update loop
-• Custom color theme (dark + neon)
+• Real-time score display
+• Lives counter
+• Centered **Game Over message**
+• Custom color theme
+
+## 👻 Visual Behavior
+
+• Bat and Ball disappear on Game Over
+• Reappear on restart
 
 ---
 
 # 🎮 Controls
 
-| Key            | Action            |
-| -------------- | ----------------- |
-| ⬅ Left Arrow   | Move paddle left  |
-| ➡ Right Arrow  | Move paddle right |
-| ❌ Close Window | Exit              |
+| Key           | Action            |
+| ------------- | ----------------- |
+| ⬅ Left Arrow  | Move paddle left  |
+| ➡ Right Arrow | Move paddle right |
+| ⏎ Enter       | Restart game      |
+| ❌ Escape      | Exit              |
+
+---
+
+# 🧠 Ball Movement Logic
+
+The ball follows directional vectors (`X`, `Y`) and changes direction based on collisions.
+
+---
+
+## 📊 Collision Cases
+
+### 🟥 Case 1: Left Wall Collision
+
+• Ball hits left boundary
+• X direction becomes **positive (+ve)**
+
+---
+
+### 🟥 Case 2: Right Wall Collision
+
+• Ball hits right boundary
+• X direction becomes **negative (-ve)**
+
+---
+
+### 🟦 Case 3: Bat Collision
+
+• Ball hits paddle
+• Y direction becomes **negative (upward)**
+
+---
+
+### 🟨 Case 4: Top Wall Collision
+
+• Ball hits top boundary
+• Y direction becomes **positive (downward)**
+
+---
+
+### 🟥 Case 5: Bottom (Missed Ball)
+
+• Ball crosses bottom boundary
+• Life decreases
+• Ball resets to starting position
+
+---
+
+# 📈 Diagrammatic Representation
+
+![Image](assets/image1.png)
+
+![Image](assets/image2.png)
+
+![Image](assets/image3.png)
+
+![Image](assets/image4.png)
+
+![Image](assets/image5.png)]
 
 ---
 
 # 🧱 Technical Architecture
 
-This project follows a **modular object-oriented design**:
+This project follows a **modular OOP design**:
 
-• Separate `Bat` class for paddle logic
-• Real-time game loop
-• Delta-time movement system
-• Input-state based control system
+• `Bat` class → Paddle logic
+• `Ball` class → Physics & movement
+• `main.cpp` → Game loop & control
 
 ---
 
@@ -67,9 +137,12 @@ This project follows a **modular object-oriented design**:
 ```bash
 Pong/
 │
-├── main.cpp        # Game loop, window, input handling
-├── bat.h           # Bat class definition
-├── bat.cpp         # Bat logic implementation
+├── main.cpp        # Game loop, input, UI, states
+├── Bat.h           # Paddle class definition
+├── Bat.cpp         # Paddle logic
+├── Ball.h          # Ball class definition
+├── Ball.cpp        # Ball physics & movement
+├── font/           # Custom font file
 └── README.md
 ```
 
@@ -80,8 +153,10 @@ Pong/
 ### 🛠 Compile
 
 ```bash
-g++ main.cpp bat.cpp -o pong -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.cpp Bat.cpp Ball.cpp -o pong -lsfml-graphics -lsfml-window -lsfml-system
 ```
+
+---
 
 ### ▶ Run
 
@@ -91,102 +166,75 @@ g++ main.cpp bat.cpp -o pong -lsfml-graphics -lsfml-window -lsfml-system
 
 ---
 
-# 🧩 System Breakdown
+# ⚙️ Core Systems Breakdown
 
-## 1️⃣ Paddle Movement System
+## 1️⃣ Movement System
 
-### Features
-
-• Direction flags (`m_isMovingLeft`, `m_isMovingRight`)
-• Continuous motion using delta time
-• Speed-based movement
-
-### Core Logic
+• Delta-time based movement
+• Smooth and frame-independent motion
 
 ```cpp
-m_position.x += m_speed * dt.asSeconds();
+m_position += speed * dt.asSeconds();
 ```
 
 ---
 
-## 2️⃣ Boundary System
+## 2️⃣ Collision System
 
-### Purpose
-
-Prevents paddle from leaving the screen
-
-### Logic
-
-```cpp
-if (m_position.x < windowWidth - batWidth)
-```
+• Boundary detection (walls)
+• Paddle collision using `FloatRect::intersects()`
 
 ---
 
-## 3️⃣ Input System
+## 3️⃣ Game State System
 
-### Approach
-
-Uses **real-time polling** instead of event-only input
-
-### Functions
-
-```cpp
-moveLeft()
-moveRight()
-stopLeft()
-stopRight()
-```
+• Boolean-based state (`gameOver`)
+• Input-triggered restart
 
 ---
 
-## 4️⃣ Rendering System
+## 4️⃣ Rendering Pipeline
 
-### Flow
-
-• Clear screen
-• Draw objects
-• Display frame
+• Clear → Draw → Display loop
+• SFML rendering engine
 
 ---
 
 # 🎯 Learning Outcomes
 
 • Real-time game loop design
-• Delta-time based movement
-• Object-oriented design in C++
-• Input handling (event vs real-time)
-• Basic game architecture
-• SFML rendering pipeline
+• Collision detection in 2D
+• Object-oriented programming in C++
+• SFML graphics handling
+• Game state management
+• Input handling (real-time vs event-based)
 
 ---
 
-# ⚠️ Current Limitations
+# ⚠️ Limitations
 
-• No ball implemented
-• No collision system
-• No scoring system
 • No sound effects
-• No UI
+• No AI opponent
+• Fixed ball speed
+• Basic physics (no angle variation)
 
 ---
 
-# 🔮 Planned Improvements
+# 🔮 Future Improvements
 
-• Ball physics system ⚽
-• Paddle-ball collision detection
-• Scoring system 🧮
-• Game states (start / pause / game over)
+• AI paddle 🤖
+• Dynamic ball angles 🎯
+• Increasing difficulty 📈
 • Sound effects 🔊
-• UI elements (score display)
-• AI opponent 🤖
+• Pause menu ⏸
+• Multiplayer mode 👥
 
 ---
 
 # 🧑‍💻 Author
 
 **Developer:** Uttam Patnaik
-**Project Type:** Learning / Game Development
+**Project Type:** Game Development / Learning
 **Language:** C++
 **Library:** SFML
 
@@ -194,14 +242,14 @@ stopRight()
 
 # 📌 Version Info
 
-**Version:** 0.1-alpha
-**Stage:** Early Prototype
-**Focus:** Core Movement System
+**Version:** 1.0
+**Stage:** Complete (Core Game)
+**Focus:** Gameplay + Physics + UI
 
 ---
 
 # 🏓 Pong
 
-**Precision. Control. Evolution.** 🎮
+**Precision. Control. Reflex.** 🎮🔥
 
 ---
