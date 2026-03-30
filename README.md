@@ -106,15 +106,15 @@ The ball follows directional vectors (`X`, `Y`) and changes direction based on c
 
 # 📈 Diagrammatic Representation
 
-![Image](assets/image1.png)
+![Image](assets/image1.jpg)
 
-![Image](assets/image2.png)
+![Image](assets/image2.jpg)
 
-![Image](assets/image3.png)
+![Image](assets/image3.jpg)
 
-![Image](assets/image4.png)
+![Image](assets/image4.jpg)
 
-![Image](assets/image5.png)]
+![Image](assets/image5.jpg)]
 
 ---
 
